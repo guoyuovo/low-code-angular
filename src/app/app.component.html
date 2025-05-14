@@ -1,0 +1,59 @@
+<div class="container">
+  <!-- 物料区 -->
+  <div class="material-area">
+    <h3>物料区</h3>
+    <div class="material-item" (click)="addNewItem()">
+      添加按钮
+    </div>
+  </div>
+
+  <!-- 画布区域 -->
+  <div class="canvas-area">
+    <h3>画布区域</h3>
+    <div class="canvas-container" #canvasContainer>
+      @for (item of canvasItems; track item.id) {
+      <div [style.left.px]="item.left" [style.top.px]="item.top" [style.width.px]="item.width"
+        [style.height.px]="item.height" [style.transform]="`rotate(${item.rotation}deg)`" class="canvas-item"
+        (mousedown)="startInteraction($event, item)" (mouseenter)="onItemHover(item)" (mouseleave)="onItemLeave(item)">
+        <div class="item-content">
+          {{ item.text }}
+        </div>
+        <!-- 旋转按钮 -->
+        <button class="rotate-btn" (click)="rotateItem(item)" (mousedown)="$event.stopPropagation()">
+          ↻
+        </button>
+        <!-- 右侧调整区域 -->
+        <div class="resize-handle right"></div>
+        <!-- 底部调整区域 -->
+        <div class="resize-handle bottom"></div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- 属性区 -->
+  <div class="property-area">
+    <h3>物料属性</h3>
+    @if (selectedItem) {
+    <div>
+      <div class="form-group">
+        <mat-form-field class="example-form-field">
+          <mat-label>文本内容：</mat-label>
+          <input matInput type="text" [(ngModel)]="selectedItem.text">
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="example-form-field">
+          <mat-label>宽度(px)：</mat-label>
+          <input matInput type="number" [(ngModel)]="selectedItem.width">
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="example-form-field">
+          <mat-label>高度(px)：</mat-label>
+          <input matInput type="number" [(ngModel)]="selectedItem.height">
+        </mat-form-field>
+      </div>
+    </div>
+    }
+  </div>
